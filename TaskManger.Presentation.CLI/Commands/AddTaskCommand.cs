@@ -17,6 +17,6 @@ public class AddTaskCommand: Command<AddTaskSettings>
 {
     public override int Execute(CommandContext context, AddTaskSettings settings)
     {
-        return 0;
+        return 1;
     }
 }
