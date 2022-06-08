@@ -1,4 +1,4 @@
-using TaskManager.Infrastructure.Storage.contracts;
+using TaskManager.Domain.Task.WriteDtos;
 using TaskManager.Infrastructure.Storage.contracts.JsonPersistence;
 
 namespace TaskManager.Infrastructure.Storage;
@@ -14,7 +14,7 @@ public class TaskRepository
         return tasks.FindAll().Select(entity => entity.Id).Max() + 1;
     }
 
-    public void Set(TaskDto dto)
+    public void Set(TaskWriteDto dto)
     {
         var entity = tasks.Find(dto.Id);
         
@@ -28,24 +28,34 @@ public class TaskRepository
         }
     }
 
-    private void Create(TaskDto dto)
+    private void Create(TaskWriteDto dto)
     {
         tasks.Set(_writeAdapter.Adapt(dto));
     }
 
-    private void Update(TaskDto dto, TaskEntity entity)
+    private void Update(TaskWriteDto dto, TaskEntity entity)
     {
         tasks.Set(entity);
     }
 
-    private IEnumerable<TaskDto> GetAll()
+    private IEnumerable<TaskWriteDto> GetAll()
     {
         return tasks.FindAll().Select(_readAdapter.Adapt);
     }
     
-    private TaskDto? Get(int id)
+    private TaskWriteDto? Get(int id)
     {
         var task = tasks.Find(id);
         return task == null ? null : _readAdapter.Adapt(task);
     }
+    
+    private void Delete(TaskWriteDto taskDto)
+    {
+        var task = tasks.Find(taskDto.Id);
+        if (task != null)
+        {
+            tasks.Delete(taskDto.Id);
+        }
+    }
+    
 }

@@ -1,21 +1,15 @@
+using TaskManager.Domain.Task.WriteDtos;
 using TaskManager.Infrastructure.Storage.contracts;
 
 namespace TaskManager.Infrastructure.Storage;
 
-public class TaskReadAdapter : EntityAdapter<TaskEntity, TaskDto>
+public class TaskReadAdapter : EntityAdapter<TaskEntity, TaskWriteDto>
 {
-    public TaskDto Adapt(TaskEntity entity) =>
-        new()
-        {
-            Id = entity.Id,
-            CloseCreated = entity.CloseCreated,
-            Created = entity.Created,
-            Description = entity.Description,
-            DueDate = entity.DueDate,
-            State = entity.State,
-            Tag = entity.Tag,
-            SubTasks = entity.SubTasks.Any() 
+    public TaskWriteDto Adapt(TaskEntity entity) =>
+        new(entity.Id, entity.Description,
+            entity.Tag, entity.State,
+            entity.Created, entity.DueDate,
+            entity.CloseCreated, entity.SubTasks.Any()
                 ? entity.SubTasks.Select(Adapt)
-                : new List<TaskDto>()
-        };
+                : new List<TaskWriteDto>());
 }
