@@ -6,9 +6,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Domain", "TaskM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Infrastructure.Storage", "TaskManager.Infrastructure.Storage\TaskManager.Infrastructure.Storage.csproj", "{05854EF3-B365-43BB-94F6-EB1F7257CEC5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskMananger.Infrastructure.Logging", "TaskMananger.Infrastructure.Logging\TaskMananger.Infrastructure.Logging.csproj", "{60ED7F93-1A0A-4F1D-ABEB-9DD3B338D44A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Infrastructure.Logging", "TaskManager.Infrastructure.Logging\TaskManager.Infrastructure.Logging.csproj", "{60ED7F93-1A0A-4F1D-ABEB-9DD3B338D44A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Tests", "TaskManager.Tests\TaskManager.Tests.csproj", "{E87126B7-3D7F-4F39-95EB-EF034AAC0D14}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Infrastructure", "TaskManager.Infrastructure\TaskManager.Infrastructure.csproj", "{E3AF691A-E0B9-4884-A436-9230B1364C68}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,5 +38,9 @@ Global
 		{E87126B7-3D7F-4F39-95EB-EF034AAC0D14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E87126B7-3D7F-4F39-95EB-EF034AAC0D14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E87126B7-3D7F-4F39-95EB-EF034AAC0D14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3AF691A-E0B9-4884-A436-9230B1364C68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3AF691A-E0B9-4884-A436-9230B1364C68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3AF691A-E0B9-4884-A436-9230B1364C68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3AF691A-E0B9-4884-A436-9230B1364C68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

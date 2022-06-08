@@ -1,8 +1,5 @@
 ﻿using Spectre.Console.Cli;
-using TaskManager.Domain;
 using TaskManager.Domain.Task.dtos;
-using TaskManager.Domain.UseCases;
-using TaskManger.Presentation.CLI.Logging;
 
 namespace TaskManger.Presentation.CLI.Commands;
 

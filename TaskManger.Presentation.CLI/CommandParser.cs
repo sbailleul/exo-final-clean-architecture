@@ -1,6 +1,5 @@
 ﻿using Spectre.Console.Cli;
 using TaskManger.Presentation.CLI.Commands;
-using TaskManger.Presentation.CLI.Logging;
 
 namespace TaskManger.Presentation.CLI;
 
