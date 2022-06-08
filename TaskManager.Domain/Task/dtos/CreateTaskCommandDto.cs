@@ -5,6 +5,6 @@ public record CreateTaskCommandDto(
     string? Tag,
     DateTime? DueDate,
     DateTime? CloseDate,
-    int? ParentId,
+    string? CompleteParentId,
     string? State
     );
