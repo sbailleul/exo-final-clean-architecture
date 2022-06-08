@@ -1,0 +1,10 @@
+Après lecture du sujet nous avons déceler trois blocs applicatifs distincts : 
+- Interface homme machine 
+- Traitement des tâches (modifications / lecture) 
+- Persistence des tâches sous forme de fichiers
+- Persistence des logs tracant les actions faites sur les tâches
+
+Pour découpler ces blocs applicatifs tout en gardant une cohérence au sein de chaque bloc. Nous pensons qu'adopter une architecture en oignon : 
+- IHM <=> Présentation 
+- Traitement des tâches <=> Domain 
+- Persistence des tâches/logs <=> Infrastructure
