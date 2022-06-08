@@ -7,9 +7,9 @@ namespace TaskManager.Tests;
 public class CommandsTests
 {
     [Test]
-    public void JustTest()
+    public void BullShitTest()
     {
         var parser = new CommandParser();
-        parser.Run(new string[]{"add"});
+        parser.Run(new string[]{"add", "-p", "123:45", "-d","2022-04-01"});
     }
 }

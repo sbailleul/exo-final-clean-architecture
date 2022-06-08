@@ -40,7 +40,7 @@ public class Task
 
         var multipleIds = compositeId.Split(":").Select(int.Parse).ToList();
         var firstChildId = multipleIds[0];
-        multipleIds.Remove(0);
+        multipleIds.RemoveAt(0);
         var otherChildren = string.Join(':', multipleIds);
 
         var firstChild = Children.FirstOrDefault(c => c.Id.Value == firstChildId);

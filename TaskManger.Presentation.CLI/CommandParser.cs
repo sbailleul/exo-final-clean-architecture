@@ -11,7 +11,6 @@ public class CommandParser
     {
         _app = new CommandApp();
         Configure();
-
     }
     private void Configure()
     {
@@ -19,6 +18,8 @@ public class CommandParser
         {
             config.AddCommand<ListTasksCommand>("list");
             config.AddCommand<AddTaskCommand>("add");
+            config.AddCommand<RemoveTaskCommand>("remove");
+            config.AddCommand<UpdateTaskCommand>("update");
         });
     }
 
