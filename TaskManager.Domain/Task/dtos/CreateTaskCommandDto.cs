@@ -6,4 +6,4 @@ public record CreateTaskCommandDto(
     DateTime? DueDate,
     string? CompleteParentId,
     string? State
-    );
+);

@@ -1,5 +1,4 @@
-﻿namespace TaskMananger.Infrastructure.Logging;
+﻿using TaskManager.Domain;
 
-public class Class1
-{
-}
+namespace TaskMananger.Infrastructure.Logging;
+
