@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using TaskManager.Domain.Task;
+using TaskManager.Domain.Task.dtos;
 
 namespace TaskManager.Tests;
 
@@ -28,7 +29,7 @@ public class TaskTests
 
         Task sut = Task.CreateNew(new TaskId(1), null, "desc", null, DateTime.Now, null, null, null, null);
 
-        Assert.AreEqual(TaskState.Todo, sut.State.Value);
+        Assert.AreEqual("Todo", sut.State.Value);
     }
 
     [Test]
@@ -48,4 +49,17 @@ public class TaskTests
         Assert.IsNull(sut3);
         
     }
+
+    [Test]
+    public void TaskChangedToClosedShouldHaveClosedDate()
+    {
+        Task sut = Task.CreateNew(new TaskId(1), null, "desc", null, DateTime.Now, null, null, null, null);
+        var updateDto = new UpdateTaskCommandDto("1", null, null, null, "Closed");
+        var currentDate = DateTime.Now;
+        sut.Update(updateDto, currentDate);
+        Assert.NotNull(sut.CloseDate);
+        Assert.AreEqual(currentDate, sut.CloseDate);
+        Assert.AreEqual("Closed", sut.State.Value);
+    }
+    
 }

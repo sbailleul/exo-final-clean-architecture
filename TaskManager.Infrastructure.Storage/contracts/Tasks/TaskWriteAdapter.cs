@@ -1,15 +1,15 @@
 using TaskManager.Domain.Task.WriteDtos;
-using TaskManager.Infrastructure.Storage.contracts;
+using TaskManager.Infrastructure.Storage.contracts.Persistence;
 
-namespace TaskManager.Infrastructure.Storage;
+namespace TaskManager.Infrastructure.Storage.contracts.Tasks;
 
-public class TaskWriteAdapter: EntityAdapter<TaskWriteDto, TaskEntity>
+public class TaskWriteAdapter: IEntityAdapter<TaskWriteDto, TaskEntity>
 {
     public TaskEntity Adapt(TaskWriteDto dto) =>
         new()
         {
             Id = dto.Id,
-            CloseCreated = dto.CloseDate,
+            CloseDate = dto.CloseDate,
             Created = dto.CreationDate,
             Description = dto.Description,
             DueDate = dto.DueDate,

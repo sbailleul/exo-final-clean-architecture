@@ -8,4 +8,4 @@ public record TaskReadDto(
     DateTime CreationDate,
     DateTime? DueDate,
     DateTime? CloseDate,
-    IEnumerable<Task> Children);
+    IEnumerable<TaskReadDto> Children);
