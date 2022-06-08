@@ -1,4 +1,4 @@
-namespace TaskManager.Infrastructure.Storage.contracts;
+namespace TaskManager.Infrastructure.Storage.contracts.Persistence;
 
 public interface IEntityAdapter<From, To>
 {

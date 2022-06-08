@@ -1,6 +1,6 @@
 using TaskManager.Infrastructure.Storage.contracts.Persistence;
 
-namespace TaskManager.Infrastructure.Storage;
+namespace TaskManager.Infrastructure.Storage.contracts.Tasks;
 
 public class TaskEntity: IEntity
 {
