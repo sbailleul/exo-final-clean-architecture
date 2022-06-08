@@ -7,4 +7,7 @@ Après lecture du sujet nous avons déceler trois blocs applicatifs distincts :
 Pour découpler ces blocs applicatifs tout en gardant une cohérence au sein de chaque bloc. Nous pensons qu'adopter une architecture en oignon : 
 - IHM <=> Présentation 
 - Traitement des tâches <=> Domain 
-- Persistence des tâches/logs <=> Infrastructure
+- Persistence des tâches/logs <=> Infrastructur
+
+En accord avec tous les membres de l'équipe nous souhaitons développer sous forme d'un projet CLI avec .Net 6. 
+Nous allons utiliser le langage C# car il nous permettra de modéliser plus facilement les tâches que nous allons manipuler.
