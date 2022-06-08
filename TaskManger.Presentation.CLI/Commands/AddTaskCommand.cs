@@ -1,5 +1,8 @@
 ﻿using Spectre.Console.Cli;
+using TaskManager.Domain;
 using TaskManager.Domain.Task.dtos;
+using TaskManager.Domain.UseCases;
+using TaskManger.Presentation.CLI.Logging;
 
 namespace TaskManger.Presentation.CLI.Commands;
 
@@ -18,6 +21,7 @@ public class AddTaskSettings : CommandSettings
 
     [CommandOption("-s|--status <STATUS>")]
     public string? Status { get; set; }
+    
 }
 
 public class AddTaskCommand : Command<AddTaskSettings>
@@ -31,6 +35,7 @@ public class AddTaskCommand : Command<AddTaskSettings>
             settings.ParentTaskId,
             settings.Status
         );
+
         return 1;
     }
 }

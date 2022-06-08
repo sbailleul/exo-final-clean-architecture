@@ -1,6 +1,6 @@
-namespace TaskManager.Domain;
+namespace TaskManager.Domain.Pipeline;
 
-public interface IMiddleware<TRequest, TResult>
+public interface IMiddleware<TReq,TRes>
 {
-    public TResult Next(TRequest request);
+    public TRes Next(TReq args, Func<TReq, TRes> next);
 }

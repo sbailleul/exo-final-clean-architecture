@@ -1,10 +1,12 @@
 ﻿using Spectre.Console.Cli;
 using TaskManger.Presentation.CLI.Commands;
+using TaskManger.Presentation.CLI.Logging;
 
 namespace TaskManger.Presentation.CLI;
 
 public class CommandParser
 {
+
     private readonly CommandApp _app;
 
     public CommandParser()
@@ -12,6 +14,7 @@ public class CommandParser
         _app = new CommandApp();
         Configure();
     }
+
     private void Configure()
     {
         _app.Configure(config =>

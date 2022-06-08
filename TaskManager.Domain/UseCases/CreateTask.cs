@@ -2,10 +2,10 @@ using TaskManager.Domain.Task.dtos;
 
 namespace TaskManager.Domain.UseCases;
 
-public class CreateTask: IMiddleware<CreateTaskCommandDto, Unit>
+public class CreateTask
 {
-    public Unit Next(CreateTaskCommandDto request)
+    public int Next(CreateTaskCommandDto request)
     {
-        return Unit.Value;
+        return 0;
     }
 }
