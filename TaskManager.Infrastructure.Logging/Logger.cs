@@ -20,12 +20,12 @@ public class Logger : IMiddleware<string[], int>
         try
         {
             var res = func.Invoke(req);
-            textWriter.WriteLine($"[ok+][${_timeGenerator.Now()}]{string.Join(' ', req)}");
+            textWriter.WriteLine($"[ok+][{_timeGenerator.Now():yyyy-MM-dd:hh-mm,ss}]{string.Join(' ', req)}");
             return res;
         }
         catch (Exception e)
         {
-            textWriter.WriteLine($"[err][${_timeGenerator.Now()}]{string.Join(' ', req)} : {e.Message}");
+            textWriter.WriteLine($"[err][{_timeGenerator.Now():yyyy-MM-dd:hh-mm,ss}]{string.Join(' ', req)} : {e.Message}");
             throw;
         }
     }
