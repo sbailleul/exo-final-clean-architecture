@@ -1,6 +1,6 @@
 namespace TaskManager.Infrastructure.Storage.contracts;
 
-public interface EntityAdapter<From, To>
+public interface IEntityAdapter<From, To>
 {
     To Adapt(From entity);
 }
