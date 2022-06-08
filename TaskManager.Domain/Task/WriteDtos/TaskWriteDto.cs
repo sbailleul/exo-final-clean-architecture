@@ -8,5 +8,5 @@ public record TaskWriteDto(
     DateTime CreationDate,
     DateTime? DueDate,
     DateTime? CloseDate,
-    IEnumerable<Task> Children
+    IEnumerable<TaskWriteDto> Children
     );
