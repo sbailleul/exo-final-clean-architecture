@@ -7,7 +7,7 @@ namespace TaskManager.Infrastructure.Storage.contracts.Tasks;
 
 public class TaskRepository : ITasks
 {
-    private JsonPersistence<TaskEntity> tasks = new();
+    private JsonPersistence<TaskEntity> tasks = new(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/.consoleagenda/data.json");
     private TaskReadAdapter _readAdapter = new();
     private TaskWriteAdapter _writeAdapter = new();
 

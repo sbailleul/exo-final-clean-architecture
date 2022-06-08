@@ -5,7 +5,23 @@ namespace TaskManager.Infrastructure.Storage.contracts.JsonPersistence;
 
 public class JsonPersistence<T> : IPersistence<T> where T : IEntity
 {
-    private string _path = "/Users/simonhalimi/Library/Application Support/JetBrains/Rider2021.3/scratches/test.json";
+    private string _path;
+
+    public JsonPersistence(string path)
+    {
+        if (!File.Exists(path))
+        {
+            initializePersistence(path);
+        }
+
+        _path = path;
+    }
+
+    private void initializePersistence(String path)
+    {
+        Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+        using (StreamWriter sw = new StreamWriter(File.Open(path, FileMode.Append))) sw.Write(path);
+    }
 
     public IEnumerable<T> FindAll()
     {
