@@ -13,7 +13,13 @@ public class TaskRepository : ITasks
 
     public int GetNextId()
     {
-        return tasks.FindAll().Select(entity => entity.Id).Max() + 1;
+        var allTasks = tasks.FindAll();
+        if (allTasks.Count() > 0)
+        {
+            return allTasks.Select(entity => entity.Id).Max() + 1;
+        }
+        
+        return 1;
     }
 
     public Task<int> SetAsync(TaskWriteDto dto)

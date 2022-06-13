@@ -13,7 +13,7 @@ This task have these additional properties:
 - due date (optional)
 - close date (when status changed to close)
 - state (predefined values: `[todo, pending, progress, done, cancelled, closed]`), _`todo` will be the 
-default when a new task is created_
+default when a new task is created
 - Subtasks (optional): an array of tasks
 
 ## Data
@@ -47,7 +47,7 @@ example of executions :
 - `agenda remove 123`
 - `agenda update 123 -s:done`
 
-_note: in our examples, command options `-c` means content, `-d` due date, `-s` status_
+note: in our examples, command options `-c` means content, `-d` due date, `-s` status_
 
 
 
@@ -208,10 +208,10 @@ dotnet pack  .\TaskManager.Presentation.CLI
 ```
 Install tool :
 ````shell
- dotnet tool install --global --add-source ./nupkg TaskManager.Presentation.CLI
+dotnet tool install --global --add-source ./nupkg TaskManager.Presentation.CLI
 ````
 Uninstall tool : 
 ````shell
- dotnet tool uninstall --global  TaskManager.Presentation.CLI
+dotnet tool uninstall --global  TaskManager.Presentation.CLI
 ````
 
