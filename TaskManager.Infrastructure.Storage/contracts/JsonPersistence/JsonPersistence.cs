@@ -20,7 +20,7 @@ public class JsonPersistence<T> : IPersistence<T> where T : IEntity
     private void initializePersistence(String path)
     {
         Directory.CreateDirectory(Path.GetDirectoryName(path)!);
-        using (StreamWriter sw = new StreamWriter(File.Open(path, FileMode.Append))) sw.Write(path);
+        using (StreamWriter sw = new StreamWriter(File.Open(path, FileMode.Append))) sw.Write("[]");
     }
 
     public IEnumerable<T> FindAll()
