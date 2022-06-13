@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManger.Presentation.CLI", "TaskManger.Presentation.CLI\TaskManger.Presentation.CLI.csproj", "{60F7803A-5299-44BC-9614-33A065CBF2C7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Presentation.CLI", "TaskManager.Presentation.CLI\TaskManager.Presentation.CLI.csproj", "{60F7803A-5299-44BC-9614-33A065CBF2C7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Domain", "TaskManager.Domain\TaskManager.Domain.csproj", "{16E282DD-EB00-48BB-8F51-23472DC17D61}"
 EndProject

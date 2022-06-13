@@ -199,3 +199,19 @@ static class ExerciceHelpers
     }
 }
 ```
+
+
+## Dotnet tool
+Package cli project :
+```shell
+dotnet pack  .\TaskManager.Presentation.CLI
+```
+Install tool :
+````shell
+ dotnet tool install --global --add-source ./nupkg TaskManager.Presentation.CLI
+````
+Uninstall tool : 
+````shell
+ dotnet tool uninstall --global  TaskManager.Presentation.CLI
+````
+
