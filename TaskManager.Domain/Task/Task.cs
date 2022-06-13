@@ -1,4 +1,6 @@
-﻿using TaskManager.Domain.Task.dtos;
+﻿using TaskManager.Domain.Exceptions;
+using TaskManager.Domain.Task.dtos;
+using TaskManager.Domain.Task.WriteDtos;
 
 namespace TaskManager.Domain.Task;
 
@@ -12,10 +14,9 @@ public class Task
     public DateTime CreationDate { get; private set; }
     public DateTime? DueDate { get; private set; }
     public DateTime? CloseDate { get; private set;}
-    public Task? Parent { get; private set;}
-    public IEnumerable<Task>? Children { get; private set;}
+    public IEnumerable<Task> Children { get; private set;}
 
-    private Task(TaskId id, State state, string description, string? tag, DateTime creationDate, DateTime? dueDate, DateTime? closeDate, IEnumerable<Task>? children, Task? parent)
+    private Task(TaskId id, State state, string description, string? tag, DateTime creationDate, DateTime? dueDate, DateTime? closeDate, IEnumerable<Task> children)
     {
         Id = id;
         State = state;
@@ -25,48 +26,51 @@ public class Task
         DueDate = dueDate;
         CloseDate = closeDate;
         Children = children;
-        Parent = parent;
     }
 
     public static Task CreateNew(TaskId id, State? state, string description, string? tag, DateTime creationDate, DateTime? dueDate,
-        DateTime? closeDate, IEnumerable<Task>? children, Task? parent)
+        DateTime? closeDate)
     {
         state ??= State.Todo();
 
-        return new Task(id, state, description, tag, creationDate, dueDate, closeDate, children, parent);
+        return new Task(id, state, description, tag, creationDate, dueDate, closeDate, new List<Task>());
     }
 
-    private int GetFirstId(string compositeId)
+    public Task? GetChild(CompleteParentId compositeId)
     {
-        return compositeId.Split(":").Select(int.Parse).ToList()[0];
-    }
+        if (Children.Any() == false) return null;
 
-    private string GetChildrenIds(string compositeId)
-    {
-        var multipleIds = compositeId.Split(":").Select(int.Parse).ToList();
-        multipleIds.RemoveAt(0);
-        return string.Join(':', multipleIds);
-    }
-
-    public Task? GetChildren(string compositeId)
-    {
-        if (Children is null) return null;
-
-        var firstChildId = GetFirstId(compositeId);
-        var otherChildrenIds = GetChildrenIds(compositeId);
+        var firstChildId = compositeId.GetFirstId();
+        var otherChildrenIds = compositeId.GetChildrenIds();
 
         var firstChild = Children.FirstOrDefault(c => c.Id.Value == firstChildId);
 
         if (firstChild is null) return null;
 
-        if (otherChildrenIds == "") return firstChild;
+        if (otherChildrenIds.IsEmpty()) return firstChild;
         
-        return firstChild.GetChildren(otherChildrenIds);
+        return firstChild.GetChild(otherChildrenIds);
     }
 
-    public void AddChild(CreateTaskCommandDto dto)
+    // when outside of Class, AddChild should always be called on Root Task
+    public void AddChild(Task newTask, CompleteParentId completeParentId)
     {
-        throw new NotImplementedException();
+        if (completeParentId is null) throw new ArgumentException();
+        
+        Task? nodeToAttach;
+        if (completeParentId.Value == Id.Value.ToString())
+        {
+            nodeToAttach = this;
+        }
+        else
+        {
+            nodeToAttach = GetChild(completeParentId.GetChildrenIds());
+        }
+        if (nodeToAttach is null) throw new TaskNotFindableInTaskException();
+        
+        if (nodeToAttach.Children.Any(c => c.Id == newTask.Id)) throw new ChildrenTaskConflictException();
+        
+        nodeToAttach.Children = nodeToAttach.Children.Append(newTask);
     }
     
     public void Update(UpdateTaskCommandDto dto, DateTime currentDate)
@@ -101,6 +105,35 @@ public class Task
     private void UpdateDescription(string dtoDescription)
     {
         Description = dtoDescription;
+    }
+
+    public static Task From(TaskReadDto dto)
+    {
+        return new Task(
+            new TaskId(dto.Id),
+            new State(dto.State),
+            dto.Description,
+            dto.Tag,
+            dto.CreationDate,
+            dto.DueDate,
+            dto.CloseDate,
+            dto.Children.Select(From)
+        );
+    }
+
+    public TaskWriteDto ToWriteDto()
+    {
+        return new TaskWriteDto(
+            Id.Value, 
+            Description, 
+            Tag, 
+            State.Value, 
+            CreationDate, 
+            DueDate, 
+            CloseDate, 
+            Children.Select(c => c.ToWriteDto())
+            );
+        
     }
 }   
 

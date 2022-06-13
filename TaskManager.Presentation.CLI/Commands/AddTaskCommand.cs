@@ -1,5 +1,8 @@
 ﻿using Spectre.Console.Cli;
 using TaskManager.Domain.Task.dtos;
+using TaskManager.Domain.UseCases;
+using TaskManager.Infrastructure;
+using TaskManager.Infrastructure.Storage.contracts.Tasks;
 
 namespace TaskManger.Presentation.CLI.Commands;
 
@@ -25,7 +28,22 @@ public class AddTaskCommand : Command<AddTaskSettings>
 {
     public override int Execute(CommandContext context, AddTaskSettings settings)
     {
-        var taskCreationDto = new CreateTaskCommandDto(
+
+        if (settings.ParentTaskId is null)
+        {
+            var taskCreationDto = new CreateTaskCommandDto(
+                settings.Content,
+                settings.Tag,
+                settings.DueDate,
+                settings.Status
+            );
+
+            return new CreateTask(new TaskRepository(), new TimeGenerator())
+                .Execute(taskCreationDto).Result;
+
+        }
+
+        var subTaskCreationDto = new AddSubTaskCommandDto(
             settings.Content,
             settings.Tag,
             settings.DueDate,
@@ -33,6 +51,9 @@ public class AddTaskCommand : Command<AddTaskSettings>
             settings.Status
         );
 
-        return 1;
+        return new AddSubTask(new TaskRepository(), new TimeGenerator())
+            .Execute(subTaskCreationDto).Result;
+
+
     }
 }

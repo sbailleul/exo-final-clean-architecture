@@ -5,19 +5,26 @@ using TaskManager.Domain.Time;
 
 namespace TaskManager.Domain.UseCases;
 
-public class CreateTask
+public class AddSubTask
 {
+    
     private readonly ITasks _tasks;
     private readonly ITimeGenerator _timeGenerator;
 
-    public CreateTask(ITasks tasks, ITimeGenerator timeGenerator)
+    public AddSubTask(ITasks tasks, ITimeGenerator timeGenerator)
     {
         _tasks = tasks;
         _timeGenerator = timeGenerator;
     }
 
-    public async Task<int> Execute(CreateTaskCommandDto request)
+    
+    public async Task<int> Execute(AddSubTaskCommandDto request)
     {
+        var compositeId = new CompleteParentId(request.CompleteParentId);
+        var parentDto = await _tasks.FindOne(compositeId.GetFirstId());
+
+        if (parentDto is null) throw new ParentNotFoundException();
+        
         var id = _tasks.GetNextId();
         var state = request.State is not null ? new State(request.State) : null;
 
@@ -31,9 +38,12 @@ public class CreateTask
             null
         );
 
-        await _tasks.SetAsync(newTask.ToWriteDto());
+        var parent = Task.Task.From(parentDto);
+        
+        parent.AddChild(newTask, new CompleteParentId(request.CompleteParentId));
+
+        await _tasks.SetAsync(parent.ToWriteDto());
 
         return id;
-        
     }
 }

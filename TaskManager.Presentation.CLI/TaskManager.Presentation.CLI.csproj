@@ -14,6 +14,7 @@
     <ItemGroup>
       <ProjectReference Include="..\TaskManager.Domain\TaskManager.Domain.csproj" />
       <ProjectReference Include="..\TaskManager.Infrastructure.Logging\TaskManager.Infrastructure.Logging.csproj" />
+      <ProjectReference Include="..\TaskManager.Infrastructure.Storage\TaskManager.Infrastructure.Storage.csproj" />
       <ProjectReference Include="..\TaskManager.Infrastructure\TaskManager.Infrastructure.csproj" />
     </ItemGroup>
     
