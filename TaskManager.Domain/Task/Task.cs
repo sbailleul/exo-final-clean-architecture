@@ -6,17 +6,17 @@ namespace TaskManager.Domain.Task;
 
 public class Task
 {
-
     public TaskId Id { get; }
-    public State State {  get; private set; }
+    public State State { get; private set; }
     public string Description { get; private set; }
     public string? Tag { get; private set; }
     public DateTime CreationDate { get; private set; }
     public DateTime? DueDate { get; private set; }
-    public DateTime? CloseDate { get; private set;}
-    public IList<Task> Children { get; private set;}
+    public DateTime? CloseDate { get; private set; }
+    public IList<Task> Children { get; private set; }
 
-    private Task(TaskId id, State state, string description, string? tag, DateTime creationDate, DateTime? dueDate, DateTime? closeDate, IEnumerable<Task> children)
+    private Task(TaskId id, State state, string description, string? tag, DateTime creationDate, DateTime? dueDate,
+        DateTime? closeDate, IEnumerable<Task> children)
     {
         Id = id;
         State = state;
@@ -28,7 +28,8 @@ public class Task
         Children = children.ToList();
     }
 
-    public static Task CreateNew(TaskId id, State? state, string description, string? tag, DateTime creationDate, DateTime? dueDate,
+    public static Task CreateNew(TaskId id, State? state, string description, string? tag, DateTime creationDate,
+        DateTime? dueDate,
         DateTime? closeDate)
     {
         state ??= State.Todo();
@@ -48,10 +49,10 @@ public class Task
         if (firstChild is null) return null;
 
         if (otherChildrenIds.IsEmpty()) return firstChild;
-        
+
         return firstChild.GetChild(otherChildrenIds);
     }
-    
+
     public Task? GetParentOf(CompleteParentId compositeId)
     {
         if (Children.Any() == false) return null;
@@ -66,7 +67,7 @@ public class Task
         if (firstChild is null) return null;
 
         if (otherChildrenIds.IsEmpty()) return firstChild;
-        
+
         return firstChild.GetChild(otherChildrenIds);
     }
 
@@ -74,7 +75,7 @@ public class Task
     public void AddChild(Task newTask, CompleteParentId completeParentId)
     {
         if (completeParentId is null) throw new ArgumentException();
-        
+
         Task? nodeToAttach;
         if (completeParentId.Value == Id.Value.ToString())
         {
@@ -84,11 +85,38 @@ public class Task
         {
             nodeToAttach = GetChild(completeParentId.GetChildrenIds());
         }
+
         if (nodeToAttach is null) throw new TaskNotFindableInTaskException();
-        
+
         if (nodeToAttach.Children.Any(c => c.Id == newTask.Id)) throw new ChildrenTaskConflictException();
-        
+
         nodeToAttach.Children.Add(newTask);
+    }
+
+    public void DeleteChildren(CompleteParentId parentFullId)
+    {
+        if (parentFullId is null) throw new ArgumentException();
+
+        var taskToDeleteId = parentFullId.GetLast();
+        Task? parentTask = GetParentOf(parentFullId.GetChildrenIds().GetLastFullParentId());
+
+        if (parentTask is null) throw new TaskNotFindableInTaskException();
+
+        var taskToDelete = parentTask.Children.FirstOrDefault(task => task.Id.Value == taskToDeleteId);
+
+        if (taskToDelete == null) throw new ChildrenNotFoundException();
+
+        parentTask.Children.Remove(taskToDelete);
+    }
+
+    public void UpdateChildren(UpdateTaskCommandDto request, CompleteParentId fullParentId)
+    {
+        if (fullParentId is null) throw new ArgumentException();
+        var taskToUpdate = fullParentId.GetLast();
+        var childToUpdate = GetChild(fullParentId.GetChildrenIds());
+        if (childToUpdate is null) throw new TaskNotFindableInTaskException();
+        
+        childToUpdate.Update(request, DateTime.Now);
     }
 
     public void Update(UpdateTaskCommandDto dto, DateTime currentDate)
@@ -142,34 +170,14 @@ public class Task
     public TaskWriteDto ToWriteDto()
     {
         return new TaskWriteDto(
-            Id.Value, 
-            Description, 
-            Tag, 
-            State.Value, 
-            CreationDate, 
-            DueDate, 
-            CloseDate, 
+            Id.Value,
+            Description,
+            Tag,
+            State.Value,
+            CreationDate,
+            DueDate,
+            CloseDate,
             Children.Select(c => c.ToWriteDto())
-            );
-        
+        );
     }
-
-    public void DeleteChildrenTask(CompleteParentId taskToDeleteFullId)
-    {
-        if (taskToDeleteFullId is null) throw new ArgumentException();
-        
-        var taskToDeleteId = taskToDeleteFullId.GetLast();
-        Task? parentTask = GetParentOf(taskToDeleteFullId.GetChildrenIds().GetLastFullParentId());
-
-        if (parentTask is null) throw new TaskNotFindableInTaskException();
-
-        var taskToDelete = parentTask.Children.FirstOrDefault(task => task.Id.Value == taskToDeleteId);
-        
-        if (taskToDelete == null) throw new ChildrenNotFoundException();
-
-        parentTask.Children.Remove(taskToDelete);
-    }
-}   
-
-
-
+}

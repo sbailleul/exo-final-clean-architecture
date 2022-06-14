@@ -4,16 +4,16 @@ using TaskManager.Domain.Task.dtos;
 
 namespace TaskManager.Domain.UseCases;
 
-public class DeleteTask
+public class UpdateTask
 {
     private readonly ITasks _tasks;
 
-    public DeleteTask(ITasks tasks)
+    public UpdateTask(ITasks tasks)
     {
         _tasks = tasks;
     }
     
-    public async Task<int> Execute(DeleteTaskCommandDto request)
+    public async Task<int> Execute(UpdateTaskCommandDto request)
     {
         var compositeId = new CompleteParentId(request.CompleteId);
         var parentDto = await _tasks.FindOne(compositeId.GetFirstId());
@@ -24,11 +24,12 @@ public class DeleteTask
 
         if (compositeId.IsSoloId())
         {
-            _tasks.Delete(task.ToWriteDto());
-            return task.Id.Value;
+            task.Update(request, DateTime.Now);
         }
-
-        task.DeleteChildren(compositeId);
+        else
+        {
+            task.UpdateChildren(request, compositeId);
+        }
 
         await _tasks.SetAsync(task.ToWriteDto());
 
