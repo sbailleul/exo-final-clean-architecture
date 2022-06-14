@@ -21,7 +21,7 @@ public class TasksToTasksViewsMapper: Mapper<IEnumerable<Task.Task>, IEnumerable
             flattenedTasks.AddRange(Flatten(taskWithChild).Append(taskWithChild));
         }
 
-        return flattenedTasks.Select(_taskViewAdapter.Map);
+        return flattenedTasks.OrderBy(task => task.Id.Value).Select(_taskViewAdapter.Map);
     }
 
 

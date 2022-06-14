@@ -49,9 +49,6 @@ example of executions :
 
 note: in our examples, command options `-c` means content, `-d` due date, `-s` status_
 
-
-
-
 ## Additional Rules
 
 These are features of the app that are less important for a basic working app but we would 
@@ -199,19 +196,4 @@ static class ExerciceHelpers
     }
 }
 ```
-
-
-## Dotnet tool
-Package cli project :
-```shell
-dotnet pack  .\TaskManager.Presentation.CLI
-```
-Install tool :
-````shell
-dotnet tool install --global --add-source ./nupkg TaskManager.Presentation.CLI
-````
-Uninstall tool : 
-````shell
-dotnet tool uninstall --global  TaskManager.Presentation.CLI
-````
 
