@@ -51,6 +51,24 @@ public class Task
         
         return firstChild.GetChild(otherChildrenIds);
     }
+    
+    public Task? GetParentOf(CompleteParentId compositeId)
+    {
+        if (Children.Any() == false) return null;
+
+        if (compositeId.GetChildrenIds().IsEmpty()) return this;
+
+        var firstChildId = compositeId.GetFirstId();
+        var otherChildrenIds = compositeId.GetChildrenIds();
+
+        var firstChild = Children.FirstOrDefault(c => c.Id.Value == firstChildId);
+
+        if (firstChild is null) return null;
+
+        if (otherChildrenIds.IsEmpty()) return firstChild;
+        
+        return firstChild.GetChild(otherChildrenIds);
+    }
 
     // when outside of Class, AddChild should always be called on Root Task
     public void AddChild(Task newTask, CompleteParentId completeParentId)
@@ -134,6 +152,22 @@ public class Task
             Children.Select(c => c.ToWriteDto())
             );
         
+    }
+
+    public void DeleteChildrenTask(CompleteParentId taskToDeleteFullId)
+    {
+        if (taskToDeleteFullId is null) throw new ArgumentException();
+        
+        var taskToDeleteId = taskToDeleteFullId.GetLast();
+        Task? parentTask = GetParentOf(taskToDeleteFullId.GetChildrenIds().GetLastFullParentId());
+
+        if (parentTask is null) throw new TaskNotFindableInTaskException();
+
+        var taskToDelete = parentTask.Children.FirstOrDefault(task => task.Id.Value == taskToDeleteId);
+        
+        if (taskToDelete == null) throw new ChildrenNotFoundException();
+
+        parentTask.Children.Remove(taskToDelete);
     }
 }   
 

@@ -7,7 +7,6 @@ namespace TaskManager.Domain.UseCases;
 
 public class AddSubTask
 {
-    
     private readonly ITasks _tasks;
     private readonly ITimeGenerator _timeGenerator;
 
@@ -17,7 +16,6 @@ public class AddSubTask
         _timeGenerator = timeGenerator;
     }
 
-    
     public async Task<int> Execute(AddSubTaskCommandDto request)
     {
         var compositeId = new CompleteParentId(request.CompleteParentId);
@@ -37,8 +35,6 @@ public class AddSubTask
             request.DueDate,
             null
         );
-
-        Console.WriteLine(newTask);
 
         var parent = Task.Task.From(parentDto);
         
