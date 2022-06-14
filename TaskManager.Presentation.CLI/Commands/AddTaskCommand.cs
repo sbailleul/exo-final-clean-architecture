@@ -1,4 +1,5 @@
-﻿using Spectre.Console.Cli;
+﻿using Spectre.Console;
+using Spectre.Console.Cli;
 using TaskManager.Domain.Task.dtos;
 using TaskManager.Domain.UseCases;
 using TaskManager.Infrastructure;
@@ -21,7 +22,12 @@ public class AddTaskSettings : CommandSettings
 
     [CommandOption("-s|--status <STATUS>")]
     public string? Status { get; set; }
-    
+
+    public override ValidationResult Validate()
+    {
+        if (string.IsNullOrWhiteSpace(Content)) return ValidationResult.Error($"{nameof(Content)} is required on add task Action");
+        return base.Validate();
+    }
 }
 
 public class AddTaskCommand : Command<AddTaskSettings>
@@ -53,7 +59,5 @@ public class AddTaskCommand : Command<AddTaskSettings>
 
         return new AddSubTask(new TaskRepository(), new TimeGenerator())
             .Execute(subTaskCreationDto).Result;
-
-
     }
 }

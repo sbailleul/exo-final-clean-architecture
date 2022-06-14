@@ -14,7 +14,7 @@ public class Task
     public DateTime CreationDate { get; private set; }
     public DateTime? DueDate { get; private set; }
     public DateTime? CloseDate { get; private set;}
-    public IEnumerable<Task> Children { get; private set;}
+    public IList<Task> Children { get; private set;}
 
     private Task(TaskId id, State state, string description, string? tag, DateTime creationDate, DateTime? dueDate, DateTime? closeDate, IEnumerable<Task> children)
     {
@@ -25,7 +25,7 @@ public class Task
         CreationDate = creationDate;
         DueDate = dueDate;
         CloseDate = closeDate;
-        Children = children;
+        Children = children.ToList();
     }
 
     public static Task CreateNew(TaskId id, State? state, string description, string? tag, DateTime creationDate, DateTime? dueDate,
@@ -70,9 +70,9 @@ public class Task
         
         if (nodeToAttach.Children.Any(c => c.Id == newTask.Id)) throw new ChildrenTaskConflictException();
         
-        nodeToAttach.Children = nodeToAttach.Children.Append(newTask);
+        nodeToAttach.Children.Add(newTask);
     }
-    
+
     public void Update(UpdateTaskCommandDto dto, DateTime currentDate)
     {
         if (dto.Description is not null && dto.Description != Description) UpdateDescription(dto.Description);

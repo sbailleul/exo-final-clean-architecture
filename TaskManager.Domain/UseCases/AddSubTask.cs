@@ -26,7 +26,6 @@ public class AddSubTask
         if (parentDto is null) throw new ParentNotFoundException();
         
         var id = _tasks.GetNextId();
-        Console.WriteLine("id" + id);
         var state = request.State is not null ? new State(request.State) : null;
 
         var newTask = Task.Task.CreateNew(
@@ -38,6 +37,8 @@ public class AddSubTask
             request.DueDate,
             null
         );
+
+        Console.WriteLine(newTask);
 
         var parent = Task.Task.From(parentDto);
         
