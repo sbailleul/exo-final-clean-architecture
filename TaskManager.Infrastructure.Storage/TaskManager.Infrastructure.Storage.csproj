@@ -10,8 +10,4 @@
       <ProjectReference Include="..\TaskManager.Domain\TaskManager.Domain.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="contracts\JsonPersistence\Exception" />
-    </ItemGroup>
-
 </Project>

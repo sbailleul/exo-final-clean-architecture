@@ -65,4 +65,5 @@ public class JsonPersistence<T> : IPersistence<T> where T : IEntity
 
         File.WriteAllText(_path, JsonSerializer.Serialize(entities));
     }
+
 }

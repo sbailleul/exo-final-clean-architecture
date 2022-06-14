@@ -11,4 +11,4 @@ var logger = new Logger(Path.Join(consoleDirectory, "log.txt"), new TimeGenerato
 
 var parser = new CommandParser();
 
-logger.Next(Environment.GetCommandLineArgs(), args => parser.Run(args.Skip(1).ToArray()));
+logger.Next(Environment.GetCommandLineArgs(), args => parser.Run("add -p \"1:2\"".Split()));
