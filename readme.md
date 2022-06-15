@@ -1,5 +1,7 @@
 # Console task manager
 
+La video explicative se trouve a cet url : [https://www.youtube.com/watch?v=_MDr0wsa-l8
+
 ## Purpose
 
 Our objective is to build a task manager accessible from the command line.

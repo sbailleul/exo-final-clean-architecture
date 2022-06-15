@@ -64,5 +64,4 @@ public class TaskTests
         Assert.AreEqual(currentDate, sut.CloseDate);
         Assert.AreEqual("Closed", sut.State.Value);
     }
-    
 }
